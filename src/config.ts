@@ -2,14 +2,14 @@
  * App config — switch between local and production here.
  * `isProduction = false` → local backend, `true` → live backend.
  */
-export const isProduction = false;
+export const isProduction = true;
 
 const URLS = {
   local: {
     API_URL: "http://localhost:5000",
   },
   production: {
-    API_URL: "https://api.rudrajyoti.in",
+    API_URL: "https://olive-stingray-140944.hostingersite.com",
   },
 };
 
