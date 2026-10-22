@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+/* ───────────────────────── Design tokens (BRD §9 + client palette) ───────────────────────── */
+:root {
+  --bg: #fff9f0; /* cream page base */
+  --bg-alt: #fdfbf7; /* off-white alternate sections */
+  --surface: #ffffff; /* cards, modals */
+  --sand: #ede2d6; /* secondary / soft fills */
+  --primary: #d32f2f; /* sindoor red */
+  --primary-dark: #9e1c1c; /* deep maroon (hover, footer) */
+  --primary-soft: #fdecea; /* badges, highlighted bg */
+  --ink: #1a1a1a; /* body text */
+  --ink-muted: #5c5552; /* secondary text */
+  --accent: #c9962b; /* temple gold — ornaments only */
+  --border: #efe4d2; /* card borders */
+  --success: #1f7a3a;
+
+  --radius-card: 1rem;
+  --shadow-soft: 0 1px 2px rgb(120 60 20 / 0.04), 0 8px 24px -12px rgb(120 60 20 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(120 60 20 / 0.05), 0 18px 40px -16px rgb(140 40 20 / 0.28);
+  --shadow-glow: 0 10px 30px -10px rgb(211 47 47 / 0.55);
+
+  --font-scale: 1;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
+  --color-surface: var(--surface);
+  --color-sand: var(--sand);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-soft: var(--primary-soft);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-success: var(--success);
+
+  --font-serif: var(--font-playfair), "Noto Serif Bengali", Georgia, serif;
+  --font-sans: var(--font-inter), "Hind Siliguri", system-ui, sans-serif;
+
+
+  --animate-flicker: flicker 2.4s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-spin-slow: spin 60s linear infinite;
+  --animate-marquee: marquee 40s linear infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { transform: scale(1) rotate(-1deg); opacity: 1; }
+  25% { transform: scale(1.06, 0.96) rotate(1.5deg); opacity: 0.92; }
+  50% { transform: scale(0.97, 1.05) rotate(-0.5deg); opacity: 1; }
+  75% { transform: scale(1.03, 0.98) rotate(1deg); opacity: 0.95; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ───────────────────────── Base ───────────────────────── */
+html {
+  font-size: calc(100% * var(--font-scale));
+  -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
+  scroll-padding-top: 8rem;
+}
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+::selection { background: var(--primary); color: #fff; }
+
+h1, h2, h3, .font-serif { font-family: var(--font-serif); letter-spacing: -0.01em; }
+
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 6px; }
+
+/* Hide scrollbars on horizontal rails while keeping them scrollable */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--sand) 25%, #f6efe6 37%, var(--sand) 63%);
+  background-size: 400% 100%;
+  animation: var(--animate-shimmer);
+}
+
+/* Faint mandala line-art behind sections (BRD §9.4) */
+.mandala-bg { position: relative; isolation: isolate; }
+.mandala-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.05;
+  background-image: url("/assets/patterns/mandala.svg");
+  background-size: 520px;
+  background-position: center;
+  pointer-events: none;
+}
+
+.pb-safe { padding-bottom: calc(var(--safe-bottom) + 0.5rem); }
+.pt-safe { padding-top: var(--safe-top); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
