@@ -42,13 +42,13 @@ src/app/(site)/          all public + account pages (shared header, bottom tab b
   account/               user panel: dashboard, bookings, orders, family, addresses,
                          wishlist, reviews, notifications, profile, support
   login/                 phone OTP (Message Central via the API)
-  payment/status/        payment confirmation (Paytm redirect fallback, pending payments)
+  payment/status/        payment confirmation (PayU returns here via the API; pending payments)
   pages/[slug]/          CMS policy pages (privacy, terms, refund, shipping)
 src/app/manifest.ts      PWA manifest
 public/sw.js             service worker (offline fallback, image SWR, static cache-first)
 src/components/          ui primitives, layout chrome, cards, home sections, puja, store, account
 src/lib/api.ts           API client (server ISR fetch + browser fetch with token refresh)
-src/lib/payment.ts       Paytm JS Checkout / test-mode payment, always verified by the API
+src/lib/payment.ts       PayU Hosted Checkout (auto-submitted form) / test-mode payment, always verified by the API
 src/lib/site.tsx         live settings (contact, shipping fees, bottom nav) from Admin → Settings
 src/lib/types.ts         API response types
 src/data/                static copy only (brand fallback, nav, FAQs, filter vocabularies)
@@ -59,7 +59,7 @@ public/assets/images/    photos (see ATTRIBUTIONS.md)
 ## Things to try
 
 - Sign in: any 10-digit mobile → OTP. In API test mode the OTP is `123456` (also printed in the API log).
-- Book a puja → package → sankalp (saved family members, gotra) → add-ons → coupon `BHAKTI10` → Pay. In API test mode a "TEST MODE" dialog stands in for Paytm (OK = success, Cancel = failure, then retry).
+- Book a puja → package → sankalp (saved family members, gotra) → add-ons → coupon `BHAKTI10` → Pay. In API test mode a "TEST MODE" dialog stands in for PayU (OK = success, Cancel = failure, then retry).
 - Shop → cart → checkout (online or COD) → Account → Orders (cancel before shipping).
 - Account → Bookings shows live status and the puja video once the admin uploads it.
 

@@ -280,7 +280,7 @@ export default function CheckoutPage() {
               <PlaceButton placing={placing} onClick={place} total={total} cod={pay === "cod"} />
             </div>
             <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-ink-muted">
-              <Lock className="h-3.5 w-3.5 text-success" /> Payments secured by Paytm
+              <Lock className="h-3.5 w-3.5 text-success" /> Payments secured by PayU
             </p>
           </div>
         </aside>

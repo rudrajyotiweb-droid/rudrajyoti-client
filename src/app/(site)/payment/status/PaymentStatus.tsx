@@ -6,14 +6,17 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api, errorMessage } from "@/lib/api";
+import { useHydrated } from "@/lib/hooks";
 import type { PaymentResult } from "@/lib/types";
 import { formatINR } from "@/lib/utils";
-import { useAuth } from "@/store";
+import { useAuth, useCart } from "@/store";
 
-/** Confirms a payment with the server. Paytm redirects here when its overlay could not return to the page. */
+/** Confirms a payment with the server. PayU returns here (via the API callback) after every payment attempt. */
 export function PaymentStatus() {
   const orderId = useSearchParams().get("orderId") ?? "";
+  const hydrated = useHydrated();
   const signedIn = useAuth((s) => !!s.accessToken);
+  const clearCart = useCart((s) => s.clear);
   const [r, setR] = useState<PaymentResult | null>(null);
   const [err, setErr] = useState("");
   const tries = useRef(0);
@@ -41,6 +44,13 @@ export function PaymentStatus() {
     void loop();
     return () => clearTimeout(t);
   }, [check, signedIn]);
+
+  // a paid store order empties the cart (the PayU redirect left the checkout page before it could)
+  useEffect(() => {
+    if (r?.status === "success" && r.kind === "Store") clearCart();
+  }, [r?.status, r?.kind, clearCart]);
+
+  if (!hydrated) return <div className="mx-auto mt-16 h-72 max-w-md rounded-3xl skeleton" />;
 
   if (!signedIn)
     return (

@@ -204,7 +204,7 @@ export type Ticket = { id: string; subject: string; status: string; updated: str
 
 /** What /checkout/* returns to open the payment step. */
 export type CheckoutInfo =
-  | { provider: "paytm"; orderId: string; txnToken: string; amount: number; mid: string; scriptUrl: string; refCode: string }
+  | { provider: "payu"; orderId: string; amount: number; refCode: string; action: string; fields: Record<string, string> }
   | { provider: "mock"; orderId: string; amount: number; refCode: string }
   | { provider: "cod" };
 

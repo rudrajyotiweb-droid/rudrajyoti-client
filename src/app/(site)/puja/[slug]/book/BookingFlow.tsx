@@ -227,7 +227,7 @@ export function BookingFlow({ puja }: { puja: PujaDetail }) {
             },
           });
       setPendingCode(res.code);
-      const result = await runPayment(res.checkout, settings.brand.name);
+      const result = await runPayment(res.checkout);
       if (!result || result.status === "success") return finish(res.code, res.amount);
       if (result.status === "pending") return router.push(`/payment/status?orderId=${encodeURIComponent(result.orderId)}`);
       toast(result.message ? `Payment failed: ${result.message}. You can try again.` : "Payment failed. You can try again.", "error");
@@ -497,12 +497,12 @@ export function BookingFlow({ puja }: { puja: PujaDetail }) {
                         <ShieldCheck className="h-5 w-5" />
                       </span>
                       <span className="text-sm">
-                        <span className="block font-semibold">Pay securely with Paytm</span>
+                        <span className="block font-semibold">Pay securely with PayU</span>
                         <span className="text-xs text-ink-muted">UPI (GPay, PhonePe, Paytm) · Credit & debit cards · Netbanking · Wallets</span>
                       </span>
                     </div>
                     <p className="mt-4 flex items-center gap-2 text-xs text-ink-muted">
-                      <Lock className="h-3.5 w-3.5 text-success" /> Payments are processed by Paytm. 100% refund if the puja is not performed.
+                      <Lock className="h-3.5 w-3.5 text-success" /> Payments are processed by PayU. 100% refund if the puja is not performed.
                     </p>
                   </StepCard>
                 </div>
